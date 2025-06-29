@@ -10,6 +10,26 @@ GRANT ALL PRIVILEGES ON hbnb_test_db.* TO 'hbnb_test'@'localhost';
 GRANT SELECT ON performance_schema.* TO 'hbnb_test'@'localhost';
 FLUSH PRIVILEGES;
 
+-- Create 'users' table for testing
+CREATE TABLE IF NOT EXISTS users (
+    id VARCHAR(60) NOT NULL PRIMARY KEY,
+    email VARCHAR(128) NOT NULL,
+    password VARCHAR(128) NOT NULL,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+);
+
+-- Create 'cities' table for testing
+CREATE TABLE IF NOT EXISTS cities (
+    id VARCHAR(60) NOT NULL PRIMARY KEY,
+    state_id VARCHAR(60) NOT NULL,
+    name VARCHAR(128) NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+);
+
 -- Create 'places' table for testing
 CREATE TABLE IF NOT EXISTS places (
     id VARCHAR(60) NOT NULL PRIMARY KEY,
