@@ -142,3 +142,25 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 <br> 
 <br>
 Added MYSQL TO THIS CONSOLE PROJECT
+
+## How to Run the Console
+
+To start the AirBnB console, use the following command from the project root directory:
+
+```bash
+./console.py
+```
+
+Or, if you are using a virtual environment (recommended):
+
+```bash
+.venv/bin/python ./console.py
+```
+
+You should see the prompt:
+
+```
+(hbnb)
+```
+
+You can now enter commands such as `create`, `show`, `destroy`, `all`, `update`, and more. Type `help` for a list of available commands.
