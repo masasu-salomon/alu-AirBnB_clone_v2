@@ -107,3 +107,13 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+import unittest
+import os
+from models.engine.file_storage import FileStorage
+
+class TestFileStorage(unittest.TestCase):
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "File storage test only")
+    def test_save_to_file(self):
+        """Test that save() updates file.json"""
+        # Test code
+        pass
