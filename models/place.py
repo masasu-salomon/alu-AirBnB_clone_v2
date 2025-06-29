@@ -7,10 +7,13 @@ from datetime import datetime
 from uuid import uuid4
 
 
-class Place(
-    BaseModel,
-    Base if os.getenv('HBNB_TYPE_STORAGE') == 'db' else object
-):
+if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    PlaceBase = Base
+else:
+    PlaceBase = object
+
+
+class Place(BaseModel, PlaceBase):
     """ A place to stay """
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'places'
@@ -29,7 +32,8 @@ class Place(
             DateTime, default=datetime.now, nullable=False)
         updated_at = Column(
             DateTime, default=datetime.now, nullable=False)
-        # amenity_ids is not a column, it's a relationship in full implementation
+        # amenity_ids is not a column,
+        # it's a relationship in full implementation
     else:
         city_id = ""
         user_id = ""
