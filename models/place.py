@@ -7,7 +7,10 @@ from datetime import datetime
 from uuid import uuid4
 
 
-class Place(BaseModel, Base if os.getenv('HBNB_TYPE_STORAGE') == 'db' else object):
+class Place(
+    BaseModel,
+    Base if os.getenv('HBNB_TYPE_STORAGE') == 'db' else object
+):
     """ A place to stay """
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'places'
@@ -38,7 +41,9 @@ class Place(BaseModel, Base if os.getenv('HBNB_TYPE_STORAGE') == 'db' else objec
         price_by_night = 0
         latitude = 0.0
         longitude = 0.0
-        amenity_ids = []
+
+    # Ensure amenity_ids is always available
+    amenity_ids = []
 
     def __init__(self, *args, **kwargs):
         if os.getenv('HBNB_TYPE_STORAGE') == 'db':
@@ -48,4 +53,7 @@ class Place(BaseModel, Base if os.getenv('HBNB_TYPE_STORAGE') == 'db' else objec
                 self.created_at = datetime.now()
             if 'updated_at' not in kwargs:
                 self.updated_at = datetime.now()
-        super().__init__(*args, **kwargs)
+        super().__init__(
+            *args,
+            **kwargs
+        )

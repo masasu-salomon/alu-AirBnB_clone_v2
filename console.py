@@ -109,18 +109,18 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        
+
         # Split args into class name and parameters
         args_list = args.split(' ')
         c_name = args_list[0]
-        
+
         if c_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        
+
         # Create the instance
         new_instance = HBNBCommand.classes[c_name]()
-        
+
         # Parse additional parameters if provided
         if len(args_list) > 1:
             for param in args_list[1:]:
@@ -137,9 +137,7 @@ class HBNBCommand(cmd.Cmd):
                             continue  # Skip invalid values
                     # Set the attribute
                     setattr(new_instance, key, value)
-        
-        # Debug print to check instance type and attributes
-        print(f"[DEBUG] Created instance: {new_instance}, type: {type(new_instance)}")
+
         # Add the new instance to storage (important for DBStorage)
         storage.new(new_instance)
         storage.save()
