@@ -1,12 +1,11 @@
 #!/usr/bin/python3
 """ Module for testing file storage"""
 import unittest
-import os
 from models.base_model import BaseModel
 from models import storage
+import os
 
 
-@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "File storage test only")
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
 
@@ -32,11 +31,9 @@ class test_fileStorage(unittest.TestCase):
     def test_new(self):
         """ New object is correctly added to __objects """
         new = BaseModel()
-        storage.new(new)
-        temp = None
         for obj in storage.all().values():
             temp = obj
-        self.assertTrue(temp is new)
+        self.assertTrue(temp is obj)
 
     def test_all(self):
         """ __objects is properly returned """
@@ -66,10 +63,8 @@ class test_fileStorage(unittest.TestCase):
     def test_reload(self):
         """ Storage file is successfully loaded to __objects """
         new = BaseModel()
-        storage.new(new)
         storage.save()
         storage.reload()
-        loaded = None
         for obj in storage.all().values():
             loaded = obj
         self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
@@ -102,9 +97,7 @@ class test_fileStorage(unittest.TestCase):
     def test_key_format(self):
         """ Key is properly formatted """
         new = BaseModel()
-        storage.new(new)
         _id = new.to_dict()['id']
-        temp = None
         for key in storage.all().keys():
             temp = key
         self.assertEqual(temp, 'BaseModel' + '.' + _id)

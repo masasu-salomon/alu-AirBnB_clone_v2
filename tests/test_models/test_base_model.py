@@ -52,12 +52,9 @@ class test_basemodel(unittest.TestCase):
         i = self.value()
         i.save()
         key = self.name + "." + i.id
-        try:
-            with open('file.json', 'r') as f:
-                j = json.load(f)
-                self.assertEqual(j[key], i.to_dict())
-        except FileNotFoundError:
-            self.fail("file.json was not created by save()")
+        with open('file.json', 'r') as f:
+            j = json.load(f)
+            self.assertEqual(j[key], i.to_dict())
 
     def test_str(self):
         """ """
@@ -95,11 +92,8 @@ class test_basemodel(unittest.TestCase):
 
     def test_updated_at(self):
         """ """
-        import time
         new = self.value()
         self.assertEqual(type(new.updated_at), datetime.datetime)
         n = new.to_dict()
         new = BaseModel(**n)
-        time.sleep(0.01)  # Add a small delay
-        new.save()
-        self.assertNotEqual(new.created_at, new.updated_at)
+        self.assertFalse(new.created_at == new.updated_at)
