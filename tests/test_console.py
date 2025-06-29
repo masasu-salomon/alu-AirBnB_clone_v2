@@ -5,8 +5,10 @@ from console import HBNBCommand
 import sys
 from io import StringIO
 
+
 class TestConsole(unittest.TestCase):
     """Test the console commands"""
+
     def setUp(self):
         self.console = HBNBCommand()
         self.output = StringIO()
@@ -30,6 +32,7 @@ class TestConsole(unittest.TestCase):
         """Test empty line does nothing"""
         self.console.onecmd("")
         self.assertEqual(self.output.getvalue(), "")
+
 
 if __name__ == "__main__":
     unittest.main()
