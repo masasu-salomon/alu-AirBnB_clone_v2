@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import os
 
 
 class HBNBCommand(cmd.Cmd):
@@ -116,6 +117,11 @@ class HBNBCommand(cmd.Cmd):
 
         if c_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
+            return
+
+        # Prevent creating BaseModel in DBStorage
+        if os.getenv('HBNB_TYPE_STORAGE') == 'db' and c_name == 'BaseModel':
+            print("** can't create BaseModel in DBStorage **")
             return
 
         # Create the instance
