@@ -34,9 +34,8 @@ class TestHBNBCommand(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fake_out:
             self.console.onecmd('create BaseModel')
             output = fake_out.getvalue().strip()
-            self.assertTrue(len(output) > 0)  # Check for valid ID
-            key = f"BaseModel.{output}"
-            self.assertIn(key, storage.all())
+            # Should return error message when trying to create BaseModel in DBStorage
+            self.assertEqual(output, "** can't create BaseModel in DBStorage **")
 
     def test_quit_command(self):
         """Test quit command"""
