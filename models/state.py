@@ -13,7 +13,13 @@ class State(BaseModel, Base):
 
     __tablename__ = "states"
 
-    name = Column(String(128), nullable=False)
+    name = Column(String(128), nullable=False, default="")
+
+    def __init__(self, *args, **kwargs):
+        """Initialize State"""
+        super().__init__(*args, **kwargs)
+        if not kwargs.get('name'):
+            self.name = ""
 
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship('City', backref="state",
