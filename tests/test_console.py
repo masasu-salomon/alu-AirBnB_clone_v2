@@ -4,6 +4,8 @@ import unittest
 from console import HBNBCommand
 import sys
 from io import StringIO
+import json
+import os
 
 
 class TestConsole(unittest.TestCase):
@@ -55,6 +57,22 @@ class TestConsole(unittest.TestCase):
         self.console.onecmd('create State name="Valid" badparam')
         state_id = self.output.getvalue().strip().split('\n')[-1]
         self.assertTrue(len(state_id) > 0)
+
+    def test_create_state_id_in_file(self):
+        """Test that create State adds the new ID to file.json (FileStorage)"""
+        # Remove file.json if it exists to start fresh
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+        self.output.truncate(0)
+        self.output.seek(0)
+        self.console.onecmd('create State name="TestState"')
+        state_id = self.output.getvalue().strip().split('\n')[-1]
+        self.assertTrue(len(state_id) > 0)
+        # Now check file.json for the new State ID
+        with open('file.json', 'r') as f:
+            data = json.load(f)
+        found = any(state_id in key for key in data.keys())
+        self.assertTrue(found, f"State ID {state_id} not found in file.json")
 
 
 if __name__ == "__main__":
