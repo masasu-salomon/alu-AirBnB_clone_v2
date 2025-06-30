@@ -147,8 +147,8 @@ class HBNBCommand(cmd.Cmd):
                 except ValueError:
                     continue
             new_kwargs[key] = value
-        # Prevent creation of State without a name
-        if class_name == "State" and ("name" not in new_kwargs or not new_kwargs["name"]):
+        # Prevent creation of State or City without a name
+        if class_name in ["State", "City"] and ("name" not in new_kwargs or not new_kwargs["name"]):
             print("** name missing **")
             return
         new_instance = HBNBCommand.classes[class_name](**new_kwargs)
