@@ -17,7 +17,7 @@ class City(BaseModel, Base):
     name = Column(
         String(128), nullable=False
     )
-    places = relationship("Place", backref="cities")
+    places = relationship("Place", backref="cities", cascade="all, delete, delete-orphan")
 
     def __init__(self, *args, **kwargs):
         """Initialize City"""
