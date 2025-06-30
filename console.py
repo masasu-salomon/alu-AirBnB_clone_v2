@@ -147,10 +147,18 @@ class HBNBCommand(cmd.Cmd):
                 except ValueError:
                     continue
             new_kwargs[key] = value
-        # Prevent creation of State or City without a name
-        if class_name in ["State", "City"] and ("name" not in new_kwargs or not new_kwargs["name"]):
+        # Prevent creation of State, City, or Amenity without a name
+        if class_name in ["State", "City", "Amenity"] and ("name" not in new_kwargs or not new_kwargs["name"]):
             print("** name missing **")
             return
+        # Prevent creation of User without email or password
+        if class_name == "User":
+            if "email" not in new_kwargs or not new_kwargs["email"]:
+                print("** email missing **")
+                return
+            if "password" not in new_kwargs or not new_kwargs["password"]:
+                print("** password missing **")
+                return
         new_instance = HBNBCommand.classes[class_name](**new_kwargs)
         storage.new(new_instance)  # Ensure the new instance is added to storage
         storage.save()
