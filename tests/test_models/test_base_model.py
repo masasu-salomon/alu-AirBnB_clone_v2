@@ -6,8 +6,11 @@ import datetime
 from uuid import UUID
 import json
 import os
+import sys
 
 
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                 "FileStorage tests skipped for DBStorage")
 class test_basemodel(unittest.TestCase):
     """ """
 

@@ -2,8 +2,12 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.user import User
+import os
+import unittest
 
 
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                 "FileStorage tests skipped for DBStorage")
 class test_User(test_basemodel):
     """ """
 
