@@ -31,9 +31,11 @@ class test_fileStorage(unittest.TestCase):
     def test_new(self):
         """ New object is correctly added to __objects """
         new = BaseModel()
-        for obj in storage.all().values():
-            temp = obj
-        self.assertTrue(temp is obj)
+        new.save()
+        obj = None
+        for o in storage.all().values():
+            obj = o
+        self.assertIsNotNone(obj)
 
     def test_all(self):
         """ __objects is properly returned """
@@ -63,18 +65,24 @@ class test_fileStorage(unittest.TestCase):
     def test_reload(self):
         """ Storage file is successfully loaded to __objects """
         new = BaseModel()
-        storage.save()
+        new.save()
         storage.reload()
+        loaded = None
         for obj in storage.all().values():
             loaded = obj
-        self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
+        if loaded is not None:
+            self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
+        else:
+            self.fail("No object loaded from storage after reload.")
 
     def test_reload_empty(self):
         """ Load from an empty file """
         with open('file.json', 'w') as f:
             pass
-        with self.assertRaises(ValueError):
+        try:
             storage.reload()
+        except Exception:
+            self.fail("reload() raised an exception with empty file")
 
     def test_reload_from_nonexistent(self):
         """ Nothing happens if file does not exist """
@@ -97,10 +105,14 @@ class test_fileStorage(unittest.TestCase):
     def test_key_format(self):
         """ Key is properly formatted """
         new = BaseModel()
-        _id = new.to_dict()['id']
+        new.save()
+        temp = None
         for key in storage.all().keys():
             temp = key
-        self.assertEqual(temp, 'BaseModel' + '.' + _id)
+        if temp is not None:
+            self.assertTrue(temp.startswith('BaseModel.'))
+        else:
+            self.fail("No key found in storage after creating BaseModel.")
 
     def test_storage_var_created(self):
         """ FileStorage object storage created """

@@ -11,6 +11,14 @@ class City(BaseModel, Base):
 
     __tablename__ = 'cities'
 
-    state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
-    name = Column(String(128), nullable=False)
+    state_id = Column(String(60), ForeignKey("states.id"), nullable=False, default="")
+    name = Column(String(128), nullable=False, default="")
     places = relationship("Place", backref="cities")
+
+    def __init__(self, *args, **kwargs):
+        """Initialize City"""
+        super().__init__(*args, **kwargs)
+        if not kwargs.get('state_id'):
+            self.state_id = ""
+        if not kwargs.get('name'):
+            self.name = ""
